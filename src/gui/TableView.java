@@ -1,6 +1,7 @@
 package gui;
 
 import mvc.BaseController;
+import mvc.BaseModel;
 import mvc.BaseView;
 
 import java.awt.*;
@@ -8,13 +9,19 @@ import java.awt.*;
 /**
  * Created by Илья on 02.05.2017.
  */
-public class TableView extends javafx.scene.control.TableView implements GraphContract.View {
+public class TableView extends javafx.scene.control.TableView<Point> implements GraphContract.View {
 
-    BaseController controller;
+    GraphContract.Controller controller;
+    GraphContract.Model model;
 
     @Override
     public void setController(GraphContract.Controller baseController) {
         this.controller = controller;
+    }
+
+    @Override
+    public void setModel(BaseModel model) {
+        this.model = (GraphContract.Model) model;
     }
 
     @Override
@@ -24,7 +31,7 @@ public class TableView extends javafx.scene.control.TableView implements GraphCo
 
     @Override
     public void update() {
-
+        setItems(model.getObservableData());
     }
 
     @Override

@@ -9,20 +9,21 @@ import java.awt.*;
  */
 public class GraphController implements GraphContract.Controller {
 
-    private GraphContract.Model baseModel;
+    private GraphContract.Model model;
 
     public GraphController(GraphContract.Model model) {
-        baseModel = model;
+        setModel(model);
     }
 
     @Override
     public void setModel(BaseModel baseModel) {
-
+        model =(GraphContract.Model) baseModel;
+        this.model.setController(this);
     }
 
     @Override
     public void addPoint(Point point) {
-
+        model.addPoint(point);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class GraphController implements GraphContract.Controller {
 
     @Override
     public void onPointAdd(int index) {
-
+        
     }
 
 }

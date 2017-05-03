@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.collections.ObservableList;
 import mvc.BaseController;
 import mvc.BaseModel;
 import mvc.BaseView;
@@ -45,5 +46,7 @@ public interface GraphContract {
         void removePoint(int index);
 
         void editPoint(int index, Point point);
+
+        ObservableList<Point> getObservableData();
     }
 }
