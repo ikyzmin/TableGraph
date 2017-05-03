@@ -2,9 +2,6 @@ package gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mvc.BaseController;
-
-import java.awt.*;
 import java.util.ArrayList;
 
 /**

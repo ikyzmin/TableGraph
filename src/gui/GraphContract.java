@@ -14,15 +14,7 @@ public interface GraphContract {
 
     interface View extends BaseView<Controller> {
 
-        void show();
-
         void update();
-
-        void addPoint(model.Point point);
-
-        void removePoint(int index);
-
-        void editPoint(int index, model.Point point);
     }
 
     interface Controller extends BaseController {
