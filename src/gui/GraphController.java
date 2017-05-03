@@ -17,23 +17,23 @@ public class GraphController implements GraphContract.Controller {
 
     @Override
     public void setModel(BaseModel baseModel) {
-        model =(GraphContract.Model) baseModel;
+        model = (GraphContract.Model) baseModel;
         this.model.setController(this);
     }
 
     @Override
-    public void addPoint(Point point) {
+    public void addPoint(model.Point point) {
         model.addPoint(point);
     }
 
     @Override
     public void removePoint(int index) {
-
+        model.removePoint(index);
     }
 
     @Override
-    public void editPoint(int index, Point point) {
-
+    public void editPoint(int index, model.Point point) {
+        model.editPoint(index, point);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GraphController implements GraphContract.Controller {
 
     @Override
     public void onPointAdd(int index) {
-        
+
     }
 
 }

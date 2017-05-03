@@ -18,20 +18,20 @@ public interface GraphContract {
 
         void update();
 
-        void addPoint(Point point);
+        void addPoint(model.Point point);
 
         void removePoint(int index);
 
-        void editPoint(int index, Point point);
+        void editPoint(int index, model.Point point);
     }
 
     interface Controller extends BaseController {
 
-        void addPoint(Point point);
+        void addPoint(model.Point point);
 
         void removePoint(int index);
 
-        void editPoint(int index, Point point);
+        void editPoint(int index, model.Point point);
 
         void onPointRemove(int index);
 
@@ -41,12 +41,12 @@ public interface GraphContract {
     }
 
     interface Model extends BaseModel<Controller> {
-        void addPoint(Point point);
+        void addPoint(model.Point point);
 
         void removePoint(int index);
 
-        void editPoint(int index, Point point);
+        void editPoint(int index, model.Point point);
 
-        ObservableList<Point> getObservableData();
+        ObservableList<model.Point> getObservableData();
     }
 }

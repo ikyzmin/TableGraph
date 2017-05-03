@@ -1,7 +1,7 @@
 package gui;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
+import javafx.beans.binding.Bindings;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,15 +11,19 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.util.Callback;
+import model.*;
+import model.Point;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Button;
 
 
 /**
@@ -29,6 +33,8 @@ public class MainFrameFx extends JFrame {
     private TableView tableView;
     private GraphController controller;
     private GraphModel model;
+    private ContextMenu contextMenu;
+    private MenuItem deleteItem;
     final HBox hb = new HBox();
     final HBox mainBox = new HBox();
 
@@ -63,12 +69,42 @@ public class MainFrameFx extends JFrame {
             //creating the chart
             final Label label = new Label("Function");
             label.setFont(new Font("Arial", 20));
-            TableColumn<Point, Integer> xCol = new TableColumn<>("X");
-            TableColumn<Point, Integer> yCol = new TableColumn<>("Y");
+            TableColumn<model.Point, Double> xCol = new TableColumn<>("X");
+            TableColumn<model.Point, Double> yCol = new TableColumn<>("Y");
 
-            xCol.setCellValueFactory(new PropertyValueFactory<Point, Integer>("x"));
-            yCol.setCellValueFactory(new PropertyValueFactory<Point, Integer>("y"));
+            xCol.setContextMenu(contextMenu);
+            yCol.setContextMenu(contextMenu);
+            tableView.setRowFactory(param -> {
+                contextMenu = new ContextMenu();
+                deleteItem = new MenuItem("Delete");
+                contextMenu.getItems().addAll(deleteItem);
+                deleteItem.setOnAction(event -> {
+                    int index = tableView.getSelectionModel().getSelectedIndex();
+                    controller.removePoint(index);
+                });
+                final TableRow<Point> row = new TableRow<>();
+                row.contextMenuProperty().bind(
+                        Bindings.when(Bindings.isNotNull(row.itemProperty()))
+                                .then(contextMenu)
+                                .otherwise((ContextMenu) null));
+                return row;
+            });
+            xCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleConverter()));
+            yCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleConverter()));
+            xCol.setCellValueFactory(new PropertyValueFactory<>("x"));
+            yCol.setCellValueFactory(new PropertyValueFactory<>("y"));
 
+            xCol.setOnEditCommit(event -> {
+                model.Point point = event.getRowValue();
+                point.setX(event.getNewValue());
+                controller.editPoint(event.getTablePosition().getRow(), point);
+            });
+            yCol.setOnEditCommit(event -> {
+                model.Point point = event.getRowValue();
+                point.setY(event.getNewValue());
+                controller.editPoint(event.getTablePosition().getRow(), point);
+
+            });
             tableView.setItems(model.getObservableData());
             tableView.getColumns().addAll(xCol, yCol);
 
@@ -81,7 +117,7 @@ public class MainFrameFx extends JFrame {
 
             final javafx.scene.control.Button addButton = new javafx.scene.control.Button("Add");
             addButton.setOnAction(e -> {
-                controller.addPoint(new Point(Integer.valueOf(addX.getText()), Integer.valueOf(addY.getText())));
+                controller.addPoint(new model.Point(Double.valueOf(addX.getText()), Double.valueOf(addY.getText())));
                 addX.clear();
                 addY.clear();
             });

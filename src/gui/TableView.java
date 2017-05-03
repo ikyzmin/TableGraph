@@ -1,17 +1,19 @@
 package gui;
 
+import model.*;
 import mvc.BaseController;
 import mvc.BaseModel;
 import mvc.BaseView;
 
 import java.awt.*;
+import java.awt.Point;
 
 /**
  * Created by Илья on 02.05.2017.
  */
-public class TableView extends javafx.scene.control.TableView<Point> implements GraphContract.View {
+public class TableView extends javafx.scene.control.TableView<model.Point> implements GraphContract.View {
 
-    GraphContract.Controller controller;
+    BaseController controller;
     GraphContract.Model model;
 
     @Override
@@ -35,7 +37,7 @@ public class TableView extends javafx.scene.control.TableView<Point> implements 
     }
 
     @Override
-    public void addPoint(Point point) {
+    public void addPoint(model.Point point) {
 
     }
 
@@ -45,7 +47,7 @@ public class TableView extends javafx.scene.control.TableView<Point> implements 
     }
 
     @Override
-    public void editPoint(int index, Point point) {
+    public void editPoint(int index, model.Point point) {
 
     }
 }

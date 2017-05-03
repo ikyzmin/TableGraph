@@ -45,14 +45,14 @@ public class GraphView extends LineChart<Number, Number> implements GraphContrac
         XYChart.Series series = new XYChart.Series();
         series.setName("Graph");
         getData().clear();
-        for (Point point : model.getObservableData()) {
-            series.getData().add(new XYChart.Data<>(point.x, point.y));
+        for (model.Point point : model.getObservableData()) {
+            series.getData().add(new XYChart.Data<>(point.getX(), point.getY()));
         }
         getData().addAll(series);
     }
 
     @Override
-    public void addPoint(Point point) {
+    public void addPoint(model.Point point) {
 
     }
 
@@ -62,7 +62,7 @@ public class GraphView extends LineChart<Number, Number> implements GraphContrac
     }
 
     @Override
-    public void editPoint(int index, Point point) {
+    public void editPoint(int index, model.Point point) {
 
     }
 }
