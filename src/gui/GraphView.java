@@ -28,7 +28,7 @@ public class GraphView extends LineChart<Number, Number> implements GraphContrac
     @Override
     public void update() {
         XYChart.Series series = new XYChart.Series();
-        series.setName("Graph");
+        series.setName("y=sin(x)");
         getData().clear();
         for (model.Point point : model.getObservableData()) {
             series.getData().add(new XYChart.Data<>(point.getX(), point.getY()));

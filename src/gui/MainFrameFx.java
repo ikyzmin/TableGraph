@@ -90,7 +90,7 @@ public class MainFrameFx extends JFrame {
                 return row;
             });
             xCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleConverter()));
-            yCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleConverter()));
+
             xCol.setCellValueFactory(new PropertyValueFactory<>("x"));
             yCol.setCellValueFactory(new PropertyValueFactory<>("y"));
 
@@ -99,30 +99,20 @@ public class MainFrameFx extends JFrame {
                 point.setX(event.getNewValue());
                 controller.editPoint(event.getTablePosition().getRow(), point);
             });
-            yCol.setOnEditCommit(event -> {
-                model.Point point = event.getRowValue();
-                point.setY(event.getNewValue());
-                controller.editPoint(event.getTablePosition().getRow(), point);
-
-            });
             tableView.setItems(model.getObservableData());
             tableView.getColumns().addAll(xCol, yCol);
 
             final TextField addX = new TextField();
             addX.setPromptText("X");
             addX.setMaxWidth(xCol.getPrefWidth());
-            final TextField addY = new TextField();
-            addY.setMaxWidth(yCol.getPrefWidth());
-            addY.setPromptText("Y");
 
             final javafx.scene.control.Button addButton = new javafx.scene.control.Button("Add");
             addButton.setOnAction(e -> {
-                controller.addPoint(new model.Point(Double.valueOf(addX.getText()), Double.valueOf(addY.getText())));
+                controller.addPoint(new model.Point(Double.valueOf(addX.getText()), Math.sin(Double.valueOf(addX.getText()))));
                 addX.clear();
-                addY.clear();
             });
 
-            hb.getChildren().addAll(addX, addY, addButton);
+            hb.getChildren().addAll(addX, addButton);
             hb.setSpacing(3);
 
             final VBox vbox = new VBox();
